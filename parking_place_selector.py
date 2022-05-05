@@ -34,40 +34,48 @@ def click_event(event, x, y, flags, params):
                 if (xi <= x <= xf or xi >= x >= xf) and (yi<= y <= yf or yi >= y >= yf):
                     parking_slots.remove([start, end])
 
-def select_parking_slot(frame, show=False):
+def select_parking_slot(box_frame, processed_framed, show=False):
     for i in range(len(parking_slots)):
         start, end = parking_slots[i]
 
         xi, xf = sorted((start[0], end[0]))
         yi, yf = sorted((start[1], end[1]))
         
-        cv2.rectangle(frame, start, end, (0, 255, 0), 2)
+        cv2.rectangle(box_frame, start, end, (0, 255, 0), 2)
 
         if show:
-            ps = frame[yi:yf, xi:xf]
+            ps = processed_framed[yi:yf, xi:xf]
             w, h = ps.shape[:2]
 
             if w * h < constants['MIN_AREA_THRESHOLD']:
                 zf = constants['ZOOM_FACTOR']
                 ps = cv2.resize(ps, (int(h*zf), int(w*zf)))
+            
+            # gray = cv2.cvtColor(ps, cv2.COLOR_BGR2GRAY)
+            # th_frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 2)
+            # dil = cv2.dilate(th_frame, (constants['DILATE_FACTOR'], constants['DILATE_FACTOR']))
+
+            # cv2.imshow(f"PS {i}", dil)
             cv2.imshow(f"PS {i}", ps)
 
 # TODO: Hacerla funcion para que me de cada frame
 while True:
     ret, frame = video_reader(cap)
-
     if ret:
-
-        select_parking_slot(frame, True)
-
+        # select_parking_slot(frame, True)
         if clicked_left and clicked_right:
             parking_slots.append([start, end])
             
             clicked_right = False
             clicked_left = False
 
-        cv2.imshow("Frame", frame)
-        cv2.setMouseCallback("Frame", click_event)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        th_frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 2)
+        # dil = cv2.dilate(th_frame, (constants['DILATE_FACTOR'], constants['DILATE_FACTOR']))
+        select_parking_slot(frame, th_frame, True)
+
+        cv2.imshow("Parking", frame)
+        cv2.setMouseCallback("Parking", click_event)
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
