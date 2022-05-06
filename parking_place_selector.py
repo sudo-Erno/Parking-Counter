@@ -90,7 +90,8 @@ while True:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         th_frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 2)
 
-        final_frame = select_parking_slot(frame, th_frame, True, constants['EMPTY'])
+        final_frame = select_parking_slot(frame, th_frame, False, constants['EMPTY'])
+        # final_frame = select_parking_slot(frame, th_frame, True, constants['EMPTY'])
 
         cv2.imshow("Parking", final_frame)
         cv2.setMouseCallback("Parking", click_event)
