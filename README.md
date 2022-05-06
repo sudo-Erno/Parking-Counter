@@ -2,7 +2,7 @@
 
 The idea is to automate the process of counting how many free spaces are left, and where to find, that is, guiding the driver to a slot that can be used.
 
-![]()
+![](https://github.com/sudo-Erno/Parking-Counter/blob/master/media/Parking_gif1.gif)
 
 Dependencies:
 * OpenCV 4.5.4.58
