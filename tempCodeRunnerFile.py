@@ -1,1 +1,1 @@
-box_frame
+parking_slot_frame
