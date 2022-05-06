@@ -7,5 +7,5 @@ Dependencies:
 * Python 3.8.0
 
 Resources:
-* https://github.com/codegiovanni/Parking_space_counter/blob/main/parking_space_counter.py
+* https://github.com/codegiovanni/Parking_space_counter
 * https://www.youtube.com/watch?v=caKnQlCMIYI
