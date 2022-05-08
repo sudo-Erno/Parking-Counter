@@ -3,6 +3,7 @@ from video_reader import video_reader
 from read_yaml import read_yaml
 
 constants = read_yaml()
+parking_place_coordinates = []
 
 cap = cv2.VideoCapture('src/Parking.mp4')
 
@@ -75,7 +76,6 @@ def select_parking_slot(box_frame, processed_framed, debug=False, empty=0.22): #
     
     return cv2.addWeighted(box_frame, constants['ALPHA'], painting_frame, 1-constants['ALPHA'], 0)
 
-# TODO: Hacerla funcion para que me de cada frame
 while True:
     ret, frame = video_reader(cap)
     clean_frame = frame.copy()
@@ -96,7 +96,15 @@ while True:
         cv2.imshow("Parking", final_frame)
         cv2.setMouseCallback("Parking", click_event)
 
-        if cv2.waitKey(10) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
         break
+
+with open('test.txt', 'a') as f:
+    for coord in parking_slots:
+        start, end = coord
+        xi, xf = sorted((start[0], end[0]))
+        yi, yf = sorted((start[1], end[1]))
+        
+        f.writelines([f"{str(xi)},{str(yi)},{str(xf)},{str(yf)}\n"])
