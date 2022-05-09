@@ -3,16 +3,52 @@ from matplotlib.style import available
 from video_reader import video_reader
 from utils.read_yaml import read_yaml
 from utils.read_coordinates import get_coordinates
+import sys
+import os
 
+# Loading variables
+video_source = 'src/Parking.mp4'
+parking_place_coordinates = get_coordinates()
 constants = read_yaml()
 
-parking_place_coordinates = get_coordinates()
+args = sys.argv[1:]
+
+for i in range(len(args)):
+    flag = args[i]
+    if flag == '--video':
+        if i + 1 >= len(args):
+            print('[!] Could not find video path, selecting default')
+        else:
+            if os.path.isfile(args[i+1]):
+                video_source = args[i+1]
+            else:
+                print('[!] File not found, selecting default')
+    elif flag == '--slots':
+        if i + 1 >= len(args):
+            print('[!] Could not find path, selecting default')
+        else:
+            path = str(args[i+1])
+            path = rf'{path}'    
+            if os.path.isfile(path):
+                with open(path) as file:
+                    parking_place_coordinates = file.readlines()
+    elif flag == '--source':
+        if i + 1 >= len(args):
+            print('[!] Could not find a video source, selecting default')
+        else:
+            video_source = args[i+1]
+    elif flag == '--help':
+        print('--video: Load a video')
+        print('--slots: Load a txt file with the coordinates of the parking slots (following the requiered format)')
+        print('--source: Load the video directly from a camera')
+        quit()
+
+cap = cv2.VideoCapture(video_source)
+
 parking_slots = []
 
-cap = cv2.VideoCapture('src/Parking.mp4')
-
 # Load the parking slots coordinates
-for parking in parking_place_coordinates[1:]:
+for parking in parking_place_coordinates:
     parking = parking.split('\n')[0]
     parking = parking.split(',')
     parking_slots.append(parking)
