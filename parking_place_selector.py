@@ -79,32 +79,27 @@ def select_parking_slot(box_frame, processed_framed, debug=False, empty=0.22): #
 while True:
     ret, frame = video_reader(cap)
     clean_frame = frame.copy()
+    
     if ret:
 
-        if clicked_left and clicked_right:
-            parking_slots.append([start, end])
+        
+
+        # if clicked_left and clicked_right:
+        #     parking_slots.append([start, end])
             
-            clicked_right = False
-            clicked_left = False
+        #     clicked_right = False
+        #     clicked_left = False
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        th_frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 2)
+        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # th_frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 2)
 
-        final_frame = select_parking_slot(frame, th_frame, False, constants['EMPTY'])
-        # final_frame = select_parking_slot(frame, th_frame, True, constants['EMPTY'])
+        # final_frame = select_parking_slot(frame, th_frame, False, constants['EMPTY'])
+        # # final_frame = select_parking_slot(frame, th_frame, True, constants['EMPTY'])
 
-        cv2.imshow("Parking", final_frame)
+        cv2.imshow("Parking", frame)
         cv2.setMouseCallback("Parking", click_event)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
         break
-
-with open('test.txt', 'a') as f:
-    for coord in parking_slots:
-        start, end = coord
-        xi, xf = sorted((start[0], end[0]))
-        yi, yf = sorted((start[1], end[1]))
-        
-        f.writelines([f"{str(xi)},{str(yi)},{str(xf)},{str(yf)}\n"])
