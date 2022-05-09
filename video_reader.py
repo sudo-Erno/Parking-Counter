@@ -11,6 +11,7 @@ def video_reader(cap, factor=0.6):
         w *= factor
 
         frame = cv2.resize(frame, (int(w), int(h)))
+        # print(frame.shape)
         
         # if is_first:
         #     cv2.imwrite('ParkingSaved.jpg', frame)

@@ -1,6 +1,6 @@
 import cv2
 from video_reader import video_reader
-from read_yaml import read_yaml
+from utils.read_yaml import read_yaml
 from time import time
 
 start_time = time()
