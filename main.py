@@ -93,8 +93,8 @@ def draw_parking_slots(box_frame, processed_framed, empty=0.22): # Debug use to 
             cv2.rectangle(painting_frame, (xi, yi), (xf, yf), (0, 255, 0), -1)
             cv2.rectangle(box_frame, (xi, yi), (xf, yf), (0, 255, 0), 2)
 
-        available_slots = total_slots - occupied_slots
-        cv2.putText(box_frame, f"Available: {available_slots}/{total_slots}", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+    available_slots = total_slots - occupied_slots
+    cv2.putText(box_frame, f"Available: {available_slots}/{total_slots}", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
     
     return cv2.addWeighted(box_frame, constants['ALPHA'], painting_frame, 1-constants['ALPHA'], 0)
 

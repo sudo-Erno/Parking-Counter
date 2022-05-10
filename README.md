@@ -12,7 +12,8 @@ Files:
 
 
 TODO:
-* [ ] Improve the text showing the total availables slots.
+* [x] Improve the text showing the total availables slots.
+* [ ] Write in the slot box the slot ID.
 * [x] Add the flags so it can be run via terminal.
     * [x] --video // Load the path of the desire video.
     * [x] --slots // Load the path of the file containing all the coordinates of the parking slots.
